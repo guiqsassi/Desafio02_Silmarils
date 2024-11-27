@@ -26,8 +26,9 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<PostResponseDto> post(@Valid @RequestBody PostCreateDto postCreateDto) {
-        Post postCreated = postService.create(postMapper.dtotoPost(postCreateDto));
-        return new ResponseEntity<>(postMapper.postToResponseDto(postCreated), HttpStatus.CREATED);
+        System.out.println(postCreateDto);
+        Post postCreated = postService.create(postMapper.postDtoToPost(postCreateDto));
+        return new ResponseEntity<>(postMapper.postToPostResponseDto(postCreated), HttpStatus.CREATED);
     }
 
 }
