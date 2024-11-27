@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface PostMapper {
 
-Post postDtoToPost(PostCreateDto postCreateDto);
+   Post postDtoToPost(PostCreateDto postCreateDto);
 
    PostResponseDto postToPostResponseDto (Post post);
 
