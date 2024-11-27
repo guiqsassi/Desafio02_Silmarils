@@ -23,6 +23,10 @@ public class PostService {
     }
 
     public void delete(String id) {
+        if(!postRepository.existsById(id)) {
+            throw new RuntimeException("There is no Post with id:" + id);
+        }
+
         postRepository.deleteById(id);
     }
 
