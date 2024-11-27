@@ -23,8 +23,10 @@ public class Post implements Serializable {
     @Column(nullable = false)
     private Integer userId;
     @Column(nullable = false)
+    @Size(min = 5, max = 50)
     private String title;
     @Column(nullable = false)
+    @Size(min = 1, max = 500)
     private String body;
 
     @Override
