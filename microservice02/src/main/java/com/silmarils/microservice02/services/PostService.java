@@ -2,6 +2,7 @@ package com.silmarils.microservice02.services;
 
 import com.silmarils.microservice02.entities.Post;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import com.silmarils.microservice02.repository.PostRepository;
 
@@ -35,6 +36,11 @@ public class PostService {
 
         postRepository.deleteById(id);
     }
+
+    public List<Post> findAll(){
+        return postRepository.findAll();
+    }
+
 
 
 
