@@ -24,6 +24,12 @@ public class PostController {
 
     }
 
+    @RequestMapping(value ="/{id}",method = RequestMethod.GET)
+    public ResponseEntity<Post> getPost(@PathVariable String id) {
+        Post post = postService.findById(String.valueOf(id));
+        return  ResponseEntity.ok().body(post);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable String id) {
         postService.delete(id);
