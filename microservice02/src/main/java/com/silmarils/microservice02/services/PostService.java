@@ -5,13 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.silmarils.microservice02.repository.PostRepository;
 
+import java.util.List;
+
 
 @Service
 public class PostService {
 
     @Autowired
     private PostRepository postRepository;
-
 
     public Post create(Post post) {
         try {
@@ -24,6 +25,8 @@ public class PostService {
     public void delete(String id) {
         postRepository.deleteById(id);
     }
+
+
 
 
 }
