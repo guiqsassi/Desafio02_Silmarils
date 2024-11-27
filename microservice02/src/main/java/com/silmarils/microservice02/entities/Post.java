@@ -19,7 +19,7 @@ public class Post implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    private Long id;
+    private String id;
     @Column(nullable = false)
     private Long userId;
     @Column(nullable = false)
