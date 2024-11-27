@@ -20,7 +20,7 @@ public class PostService {
             throw new RuntimeException(e.getMessage());
         }
     }
-    public Post findById(Long id) {
+    public Post findById( String id) {
         Post post = postRepository.findById(id).get();
         if(post == null) {
             throw new RuntimeException(id + " not found");

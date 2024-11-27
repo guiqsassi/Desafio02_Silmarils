@@ -19,9 +19,9 @@ public class Post implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    private Long id;
+    private String id;
     @Column(nullable = false)
-    private Long userId;
+    private Integer userId;
     @Column(nullable = false)
     @Size(min = 5, max = 50)
     private String title;
