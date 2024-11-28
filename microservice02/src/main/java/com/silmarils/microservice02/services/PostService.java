@@ -7,6 +7,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import com.silmarils.microservice02.repository.PostRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 
