@@ -34,6 +34,7 @@ public class PostController {
     public ResponseEntity<PostResponseDto> getPost(@PathVariable String id) {
         Post post = postService.findById(String.valueOf(id));
         return  ResponseEntity.ok().body(postMapper.postToPostResponseDto(post));
+
     }
 
     @DeleteMapping("/{id}")
