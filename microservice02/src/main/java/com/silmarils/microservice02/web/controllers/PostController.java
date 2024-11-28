@@ -43,4 +43,11 @@ public class PostController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping()
+    public ResponseEntity<List<PostResponseDto>> getAllPosts() {
+        List<Post> posts = postService.findAll();
+
+        return ResponseEntity.ok(postMapper.postToPostResponseDtoList(posts));
+    }
 }
