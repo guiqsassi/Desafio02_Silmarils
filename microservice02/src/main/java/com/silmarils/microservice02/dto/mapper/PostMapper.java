@@ -10,11 +10,11 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface PostMapper {
 
-  Post postDtoToPost (PostCreateDto postCreateDto);
+    Post postDtoToPost (PostCreateDto postCreateDto);
 
-PostResponseDto postToPostResponseDto (Post post);
+    PostResponseDto postToPostResponseDto (Post post);
 
 
-   List<PostResponseDto> postToPostResponseDtoList(List<Post> posts);
+    List<PostResponseDto> postToPostResponseDtoList(List<Post> posts);
 
 }
