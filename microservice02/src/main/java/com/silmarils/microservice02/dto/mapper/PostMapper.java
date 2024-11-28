@@ -5,11 +5,15 @@ import com.silmarils.microservice02.dto.PostResponseDto;
 import com.silmarils.microservice02.entities.Post;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface PostMapper {
 
-Post postDtoToPost(PostCreateDto postCreateDto);
+   Post postDtoToPost(PostCreateDto postCreateDto);
 
    PostResponseDto postToPostResponseDto (Post post);
+
+   List<PostResponseDto> postToPostResponseDtoList (List<Post> posts);
 
 }

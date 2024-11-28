@@ -34,6 +34,7 @@ public class PostController {
     public ResponseEntity<PostResponseDto> getPost(@PathVariable String id) {
         Post post = postService.findById(String.valueOf(id));
         return  ResponseEntity.ok().body(postMapper.postToPostResponseDto(post));
+
     }
 
     @DeleteMapping("/{id}")
@@ -41,5 +42,12 @@ public class PostController {
         postService.delete(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<PostResponseDto>> getAllPosts() {
+        List<Post> posts = postService.findAll();
+
+        return ResponseEntity.ok(postMapper.postToPostResponseDtoList(posts));
     }
 }
