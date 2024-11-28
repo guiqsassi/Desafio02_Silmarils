@@ -1,6 +1,7 @@
 package com.silmarils.microservice02.services;
 
 import com.silmarils.microservice02.entities.Post;
+import com.silmarils.microservice02.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
@@ -25,13 +26,17 @@ public class PostService {
 
     public Post findById(String id)
     {
+        if(id == null || !postRepository.existsById(id)){
+            throw new EntityNotFoundException(String.format("Post with id %s not found", id));
+        }
         Post post = postRepository.findById(id).get();
-        if(post == null) {  throw new RuntimeException(id + " not found");    }
-        return post;}
+
+        return post;
+    }
 
     public void delete(String id) {
-        if(!postRepository.existsById(id)) {
-            throw new RuntimeException("There is no Post with id:" + id);
+        if(id == null || !postRepository.existsById(id)){
+            throw new EntityNotFoundException(String.format("Post with id %s not found, not possible to delete", id));
         }
 
         postRepository.deleteById(id);
