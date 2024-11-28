@@ -2,6 +2,7 @@ package com.silmarils.microservice02.dto;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -12,6 +13,7 @@ public class PostCreateDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull
+    @NotEmpty
     private Integer userId;
     @NotBlank
     @Size(min = 5, max = 50)
