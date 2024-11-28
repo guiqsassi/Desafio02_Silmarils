@@ -1,7 +1,9 @@
 package com.silmarils.microservice01.web.controllers;
 
-import com.silmarils.microservice01.entities.Post;
+import com.silmarils.microservice01.dtos.PostCreateDto;
+import com.silmarils.microservice01.dtos.PostResponseDto;
 import com.silmarils.microservice01.feignClients.PostConsumerFeign;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +18,12 @@ public class PostController {
     private PostConsumerFeign postConsumerFeign;
 
     @GetMapping("")
-    public ResponseEntity<List<Post>> list(){
+    public ResponseEntity<List<PostResponseDto>> list(){
         return postConsumerFeign.list();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Post> get(@PathVariable String id){
+    public ResponseEntity<PostResponseDto> get(@PathVariable String id){
         return postConsumerFeign.getById(id);
     }
 
@@ -30,11 +32,11 @@ public class PostController {
         return postConsumerFeign.delete(id);
     }
     @PostMapping
-    public ResponseEntity<Post> save(@RequestBody Post post){
+    public ResponseEntity<PostResponseDto> save(@RequestBody @Valid PostCreateDto post){
         return postConsumerFeign.save(post);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Post> update(@PathVariable String id, @RequestBody Post post){
+    public ResponseEntity<PostResponseDto> update(@PathVariable String id, @RequestBody @Valid PostCreateDto post){
         return postConsumerFeign.update(id, post);
     }
 
