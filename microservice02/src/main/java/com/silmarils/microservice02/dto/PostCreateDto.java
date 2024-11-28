@@ -13,7 +13,6 @@ public class PostCreateDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull
-    @NotEmpty
     private Integer userId;
     @NotBlank
     @Size(min = 5, max = 50)
