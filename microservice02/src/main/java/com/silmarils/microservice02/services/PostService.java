@@ -7,6 +7,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import com.silmarils.microservice02.repository.PostRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -26,10 +27,8 @@ public class PostService {
 
     public Post findById(String id)
     {
-        if(id == null || !postRepository.existsById(id)){
-            throw new EntityNotFoundException(String.format("Post with id %s not found", id));
-        }
-        Post post = postRepository.findById(id).get();
+
+        Post post = postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
 
         return post;
     }
