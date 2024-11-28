@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.PublicKey;
 import java.util.List;
 
 @RestController
@@ -43,4 +44,14 @@ public class PostController {
 
         return ResponseEntity.noContent().build();
     }
+
+
+    @RequestMapping(value ="/{id}",method = RequestMethod.PUT)
+    public ResponseEntity<Post> Update (@PathVariable String id, @RequestBody PostCreateDto postdto) {
+        Post post = postService.create(postMapper.postDtoToPost(postdto));
+        post.setId(id);
+        postService.update(post);
+        return  ResponseEntity.noContent().build();
+    }
+
 }

@@ -2,10 +2,11 @@ package com.silmarils.microservice02.services;
 
 import com.silmarils.microservice02.entities.Post;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import com.silmarils.microservice02.repository.PostRepository;
 
-import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -34,6 +35,17 @@ public class PostService {
         }
 
         postRepository.deleteById(id);
+    }
+        public Post update(Post pst) {
+        Post post = postRepository.findById(pst.getId()).get();
+        updatepost(post,pst);
+        return postRepository.save(post);
+
+        }
+
+    private void updatepost(Post post, Post pst) {
+        post.setTitle(pst.getTitle());
+        post.setBody(pst.getBody());
     }
 
 
