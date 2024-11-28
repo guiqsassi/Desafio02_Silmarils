@@ -32,19 +32,18 @@ public class PostController {
     }
 
     @RequestMapping(value ="/{id}",method = RequestMethod.GET)
-    public ResponseEntity<Post> getPost(@PathVariable String id) {
+    public ResponseEntity<PostResponseDto> getPost(@PathVariable String id) {
         Post post = postService.findById(String.valueOf(id));
-        return  ResponseEntity.ok().body(post);
+        return  ResponseEntity.ok().body(postMapper.postToPostResponseDto(post));
+
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable String id) {
         postService.delete(id);
 
-
         return ResponseEntity.noContent().build();
     }
-
 
     @RequestMapping(value ="/{id}",method = RequestMethod.PUT)
     public ResponseEntity<Post> Update (@PathVariable String id, @RequestBody PostCreateDto postdto) {
@@ -52,6 +51,13 @@ public class PostController {
         post.setId(id);
         postService.update(post);
         return  ResponseEntity.noContent().build();
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<PostResponseDto>> getAllPosts() {
+        List<Post> posts = postService.findAll();
+
+        return ResponseEntity.ok(postMapper.postToPostResponseDtoList(posts));
     }
 
 }
