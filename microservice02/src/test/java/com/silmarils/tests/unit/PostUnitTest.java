@@ -50,4 +50,16 @@ public class PostUnitTest {
         });
     }
 
+    @Test
+    public void postCreate_WithCorrectData(){
+        Post post = new Post("1", 2, "testePost", "O corpo do post");
+        when(postRepository.save(post)).thenReturn(post);
+        Post postCreated = postService.create(post);
+
+        Assertions.assertNotNull(postCreated);
+        Assertions.assertEquals(post.getId(), postCreated.getId());
+        Assertions.assertEquals(post.getTitle(), postCreated.getTitle());
+        Assertions.assertEquals(post.getBody(), postCreated.getBody());
+    }
+
 }

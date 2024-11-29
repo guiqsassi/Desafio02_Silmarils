@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.io.Serializable;
- @Getter @Setter @NoArgsConstructor @AllArgsConstructor @ToString
+ @Getter @Setter @AllArgsConstructor @NoArgsConstructor @ToString
 public class PostCreateDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -20,8 +20,5 @@ public class PostCreateDto implements Serializable {
     @NotBlank
     @Size(min = 5, max = 50)
     private String body;
-
-
-
 
  }

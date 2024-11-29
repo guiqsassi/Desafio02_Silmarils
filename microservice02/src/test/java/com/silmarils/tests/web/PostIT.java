@@ -1,6 +1,7 @@
 package com.silmarils.tests.web;
 
 import com.silmarils.microservice02.Microservice02Application;
+import com.silmarils.microservice02.dto.PostCreateDto;
 import com.silmarils.microservice02.dto.PostResponseDto;
 import com.silmarils.microservice02.entities.Post;
 import com.silmarils.microservice02.repository.PostRepository;
@@ -16,7 +17,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.util.List;
-
 
 @Import(EmbeddedMongoConfig.class)
 @ActiveProfiles("test")
@@ -60,4 +60,59 @@ public class PostIT {
                 .returnResult().getResponseBody();
     }
 
+    @Test
+    public void testCreatePost_WithValidData_ShouldReturnPostStatus201(){
+
+        PostCreateDto post = new PostCreateDto(2,"título de teste", "texto do teste");
+        webClient.post()
+                .uri("/api/posts")
+                .bodyValue(post)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectBody(PostResponseDto.class)
+                .returnResult().getResponseBody();
+    }
+
+    @Test
+    public void testCreatePost_WithInvalidData_ShouldReturnPostStatus400(){
+
+        PostCreateDto post = new PostCreateDto(null, "título de teste", "texto do teste");
+        var error = webClient.post()
+                .uri("/api/posts")
+                .bodyValue(post)
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(error).isNotNull();
+
+    }
+
+    @Test
+    public void testCreatePost_WithIncorrectStringSize_ShouldReturnPostStatus400(){
+
+        PostCreateDto post = new PostCreateDto(1, "aa", "texto do teste");
+        var error = webClient.post()
+                .uri("/api/posts")
+                .bodyValue(post)
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(error).isNotNull();
+
+        post = new PostCreateDto(1, "título de teste", "aa");
+        error = webClient.post()
+                .uri("/api/posts")
+                .bodyValue(post)
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(error).isNotNull();
+
+    }
 }
