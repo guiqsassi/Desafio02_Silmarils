@@ -31,10 +31,12 @@ public class PostController {
     public ResponseEntity<?> delete(@PathVariable String id){
         return postConsumerFeign.delete(id);
     }
+
     @PostMapping
     public ResponseEntity<PostResponseDto> save(@RequestBody @Valid PostCreateDto post){
         return postConsumerFeign.save(post);
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<PostResponseDto> update(@PathVariable String id, @RequestBody @Valid PostCreateDto post){
         return postConsumerFeign.update(id, post);
