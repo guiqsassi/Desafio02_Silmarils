@@ -2,10 +2,10 @@ package com.silmarils.microservice02.web.controllers;
 
 import com.silmarils.microservice02.web.dto.PostCreateDto;
 import com.silmarils.microservice02.web.dto.PostResponseDto;
+import com.silmarils.microservice02.web.dto.Postupdatedto;
 import com.silmarils.microservice02.web.dto.mapper.PostMapper;
 import com.silmarils.microservice02.entities.Post;
 import com.silmarils.microservice02.services.PostService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,10 +45,9 @@ public class PostController {
 
         return ResponseEntity.noContent().build();
     }
-
     @RequestMapping(value ="/{id}",method = RequestMethod.PUT)
-    public ResponseEntity<URI> Update (@PathVariable String id, @RequestBody @Valid PostCreateDto postDto) {
-        Post post = postService.create(PostMapper.postDtoToPost(postDto));
+    public ResponseEntity<URI> Update (@PathVariable String id, @RequestBody @Valid Postupdatedto postupdatedto) {
+        Post post = postService.create(PostMapper.postupdateDtoToPost(postupdatedto));
         Post postUpdated = postService.update(post, id);
 
         URI uri = ServletUriComponentsBuilder
