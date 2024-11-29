@@ -1,8 +1,6 @@
-package com.silmarils.microservice02.dto;
+package com.silmarils.microservice02.web.dto;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
