@@ -1,8 +1,7 @@
 package com.silmarils.microservice02.web.controllers;
 
-import com.silmarils.microservice02.dto.PostResponseDto;
-import com.silmarils.microservice02.dto.mapper.PostMapper;
-import com.silmarils.microservice02.entities.Post;
+import com.silmarils.microservice02.web.dto.PostResponseDto;
+import com.silmarils.microservice02.web.dto.mapper.PostMapper;
 import com.silmarils.microservice02.services.PostSyncService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,21 +14,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1/sync-data")
+@RequestMapping("/api/sync-data")
 public class SyncDataController {
     @Autowired
     PostSyncService postSyncService;
 
-    @Autowired
-    PostMapper postMapper;
 
     @PostMapping
     public ResponseEntity<List<PostResponseDto>> syncData() {
 
-        List<PostResponseDto> responseDtos = postSyncService.syncData()
-                .stream()
-                .map(postMapper :: postToPostResponseDto)
-                .collect(Collectors.toList());
+        List<PostResponseDto> responseDtos = PostMapper.postToPostResponseDtoList(postSyncService.syncData());
 
 
         return new ResponseEntity<>(responseDtos, HttpStatus.CREATED);
