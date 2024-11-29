@@ -41,17 +41,19 @@ public class PostService {
 
         postRepository.deleteById(id);
     }
-        public Post update(Post pst) {
-        Post post = postRepository.findById(pst.getId()).get();
-        updatepost(post,pst);
-        return postRepository.save(post);
 
+    public Post update(Post postNewData, String id) {
+        Post post = this.findById(id);
+
+        if(!postNewData.getBody().equals(post.getBody())){
+            post.setBody(postNewData.getBody());
+        }
+        if(!postNewData.getTitle().equals(post.getTitle())){
+            post.setTitle(postNewData.getTitle());
         }
 
-    private void updatepost(Post post, Post pst) {
-        post.setTitle(pst.getTitle());
-        post.setBody(pst.getBody());
-    }
+        return postRepository.save(post);
+        }
 
     public List<Post> findAll(){
         return postRepository.findAll();
