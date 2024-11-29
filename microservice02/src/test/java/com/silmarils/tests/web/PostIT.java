@@ -64,7 +64,7 @@ public class PostIT {
     }
 
     @Test
-    public void testgetall_withid(){
+    public void testGetAll_ShouldReturnListOfPostsStatus200(){
         webClient.get()
                 .uri("/api/posts")
                 .exchange()
@@ -72,7 +72,9 @@ public class PostIT {
                 .expectBodyList(PostResponseDto.class)
                 .returnResult().getResponseBody();
 
-        List<Post> posts = postRepository.findAll();}
+
+
+    }
 
 
 }
