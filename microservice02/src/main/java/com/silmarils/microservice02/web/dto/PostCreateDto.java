@@ -19,7 +19,4 @@ public class PostCreateDto implements Serializable {
     @Size(min = 5, max = 50)
     private String body;
 
-
-
-
  }
