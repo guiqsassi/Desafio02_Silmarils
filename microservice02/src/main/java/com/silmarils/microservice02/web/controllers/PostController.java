@@ -1,8 +1,8 @@
 package com.silmarils.microservice02.web.controllers;
 
-import com.silmarils.microservice02.dto.PostCreateDto;
-import com.silmarils.microservice02.dto.PostResponseDto;
-import com.silmarils.microservice02.dto.mapper.PostMapper;
+import com.silmarils.microservice02.web.dto.PostCreateDto;
+import com.silmarils.microservice02.web.dto.PostResponseDto;
+import com.silmarils.microservice02.web.dto.mapper.PostMapper;
 import com.silmarils.microservice02.entities.Post;
 import com.silmarils.microservice02.services.PostService;
 import jakarta.validation.Valid;
@@ -11,15 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.PublicKey;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
 
-    @Autowired
-    PostMapper postMapper;
+    
 
     @Autowired
     private PostService postService;
@@ -27,14 +25,14 @@ public class PostController {
     @PostMapping
     public ResponseEntity<PostResponseDto> post(@Valid @RequestBody PostCreateDto postCreateDto) {
         System.out.println(postCreateDto);
-        Post postCreated = postService.create(postMapper.postDtoToPost(postCreateDto));
-        return new ResponseEntity<>(postMapper.postToPostResponseDto(postCreated), HttpStatus.CREATED);
+        Post postCreated = postService.create(PostMapper.postDtoToPost(postCreateDto));
+        return new ResponseEntity<>(PostMapper.postToPostResponseDto(postCreated), HttpStatus.CREATED);
     }
 
     @RequestMapping(value ="/{id}",method = RequestMethod.GET)
     public ResponseEntity<PostResponseDto> getPost(@PathVariable String id) {
         Post post = postService.findById(String.valueOf(id));
-        return  ResponseEntity.ok().body(postMapper.postToPostResponseDto(post));
+        return  ResponseEntity.ok().body(PostMapper.postToPostResponseDto(post));
 
     }
 
@@ -47,7 +45,7 @@ public class PostController {
 
     @RequestMapping(value ="/{id}",method = RequestMethod.PUT)
     public ResponseEntity<Post> Update (@PathVariable String id, @RequestBody PostCreateDto postdto) {
-        Post post = postService.create(postMapper.postDtoToPost(postdto));
+        Post post = postService.create(PostMapper.postDtoToPost(postdto));
         post.setId(id);
         postService.update(post);
         return  ResponseEntity.noContent().build();
@@ -57,7 +55,7 @@ public class PostController {
     public ResponseEntity<List<PostResponseDto>> getAllPosts() {
         List<Post> posts = postService.findAll();
 
-        return ResponseEntity.ok(postMapper.postToPostResponseDtoList(posts));
+        return ResponseEntity.ok(PostMapper.postToPostResponseDtoList(posts));
     }
 
 }

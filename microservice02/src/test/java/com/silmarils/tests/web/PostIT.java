@@ -1,7 +1,7 @@
 package com.silmarils.tests.web;
 
 import com.silmarils.microservice02.Microservice02Application;
-import com.silmarils.microservice02.dto.PostResponseDto;
+import com.silmarils.microservice02.web.dto.PostResponseDto;
 import com.silmarils.microservice02.entities.Post;
 import com.silmarils.microservice02.repository.PostRepository;
 import com.silmarils.microservice02.web.controllers.exception.ErrorMessage;

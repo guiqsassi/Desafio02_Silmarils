@@ -1,11 +1,13 @@
 package com.silmarils.microservice02.entities;
 
-import jakarta.persistence.*;
+
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serial;
@@ -20,12 +22,9 @@ public class Post implements Serializable {
 
     @Id
     private String id;
-    @Column(nullable = false)
     private Integer userId;
-    @Column(nullable = false)
     @Size(min = 5, max = 50)
     private String title;
-    @Column(nullable = false)
     @Size(min = 1, max = 500)
     private String body;
 
