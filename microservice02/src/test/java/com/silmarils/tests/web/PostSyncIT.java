@@ -5,7 +5,6 @@ import com.silmarils.microservice02.dto.PostResponseDto;
 import com.silmarils.microservice02.entities.Post;
 import com.silmarils.microservice02.repository.PostRepository;
 import com.silmarils.tests.config.EmbeddedMongoConfig;
-import io.swagger.v3.oas.models.links.Link;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
