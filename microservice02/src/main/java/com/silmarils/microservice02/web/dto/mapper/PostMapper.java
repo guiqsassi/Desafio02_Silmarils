@@ -11,8 +11,13 @@ public class PostMapper {
 
 
     public static Post postDtoToPost(PostCreateDto dto){
-        return new ModelMapper().map(dto, Post.class);
+        Post post = new Post();
+        post.setUserId(dto.getUserId());
+        post.setTitle(dto.getTitle());
+        post.setBody(dto.getBody());
+        return post;
     }
+
     public static PostResponseDto postToPostResponseDto(Post post){
         return new ModelMapper().map(post, PostResponseDto.class);
     }
