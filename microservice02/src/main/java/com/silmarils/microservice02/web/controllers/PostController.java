@@ -15,7 +15,7 @@ import java.security.PublicKey;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/posts")
+@RequestMapping("/api/posts")
 public class PostController {
 
     @Autowired
