@@ -5,6 +5,7 @@ import com.silmarils.microservice02.web.dto.PostResponseDto;
 import com.silmarils.microservice02.entities.Post;
 import com.silmarils.microservice02.repository.PostRepository;
 import com.silmarils.microservice02.web.controllers.exception.ErrorMessage;
+import com.silmarils.microservice02.web.dto.Postupdatedto;
 import com.silmarils.tests.config.EmbeddedMongoConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -71,6 +72,7 @@ public class PostIT {
 
 
     }
+
 
 
 }
