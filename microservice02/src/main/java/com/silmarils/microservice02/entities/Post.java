@@ -9,9 +9,12 @@ import lombok.Setter;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.repository.Aggregation;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Document(collection = "tb_post")
@@ -27,6 +30,7 @@ public class Post implements Serializable {
     private String title;
     @Size(min = 1, max = 500)
     private String body;
+    private List<Comment> comments = new ArrayList<>();
 
 
     @Override
