@@ -3,6 +3,7 @@ package com.silmarils.microservice01.web;
 import com.silmarils.microservice01.Microservice01Application;
 import com.silmarils.microservice01.dtos.PostCreateDto;
 import com.silmarils.microservice01.dtos.PostResponseDto;
+import com.silmarils.microservice01.dtos.PostUpdateDto;
 import com.silmarils.microservice01.feignClients.PostConsumerFeign;
 import feign.Response;
 import org.junit.jupiter.api.AfterEach;
@@ -85,8 +86,8 @@ public class PostIt {
         ResponseEntity<PostResponseDto> res = postConsumerFeign.save(postCreated);
         PostResponseDto dto =res.getBody();
 
-        PostCreateDto postUpdate = new PostCreateDto(23, "Titulo Atualizado", "Bom tarde pessoal");
-        ResponseEntity<PostResponseDto> response = postConsumerFeign.update(dto.getId() ,postUpdate);
+        PostUpdateDto postUpdate = new PostUpdateDto("Titulo Atualizado", "Bom tarde pessoal");
+        ResponseEntity<String> response = postConsumerFeign.update(dto.getId() ,postUpdate);
 
         Assertions.assertEquals(response.getStatusCode(), HttpStatusCode.valueOf(204));
 
