@@ -14,9 +14,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -37,9 +40,9 @@ public class PostUnitTest {
         Post postFind = postService.findById(post.getId());
 
         Assertions.assertNotNull(postFind);
-        Assertions.assertEquals(post.getId(), postFind.getId());
-        Assertions.assertEquals(post.getTitle(), postFind.getTitle());
-        Assertions.assertEquals(post.getBody(), postFind.getBody());
+        assertEquals(post.getId(), postFind.getId());
+        assertEquals(post.getTitle(), postFind.getTitle());
+        assertEquals(post.getBody(), postFind.getBody());
 
 
     }
@@ -51,6 +54,16 @@ public class PostUnitTest {
             postService.findById("3");
         });
     }
+    @Test
+    public void getAllPosts_correct(){
+        Post post1 = new Post("1", 3, "test do titulo do post2024", "test do corpo do post");
+        Post post2 = new Post("2", 4, "test do titulo do post", "test do corpo do post");
+        when(postRepository.findAll()).thenReturn(Arrays.asList(post1, post2));
+
+        List<Post> posts = postService.findAll();
+    }
+
+
 
     @Test
     public void postCreate_WithCorrectData(){

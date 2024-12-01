@@ -17,8 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
-
 import java.util.List;
+import static org.mockito.Mockito.when;
+
 
 
 @Import(EmbeddedMongoConfig.class)
@@ -33,8 +34,7 @@ public class PostIT {
 
     @BeforeEach
     public void setup(){
-        postRepository.deleteAll();
-        Post post = new Post("1", 2, "testePost", "O corpo do post");
+        postRepository.deleteAll();Post post = new Post("1", 2, "testePost", "O corpo do post");
         Post post2 = new Post("2", 2, "Post de teste 2", "O corpo do post de teste 2");
         Post post3 = new Post("3", 2, "Post de teste 3", "O corpo do post de teste 3");
 
@@ -78,6 +78,7 @@ public class PostIT {
         Assertions.assertThat(post).isNull();
 
     }
+  
 @Test
     public void testDeletePost_WitIncorrectId_ShouldReturnStatus404()  throws Exception {
 
@@ -95,6 +96,18 @@ public class PostIT {
     }
 
 
+    public void testGetAll_ShouldReturnListOfPostsStatus200(){
+        webClient.get()
+                .uri("/api/posts")
+                .exchange()
+                .expectStatus().isEqualTo(HttpStatusCode.valueOf(200))
+                .expectBodyList(PostResponseDto.class)
+                .returnResult().getResponseBody();
+
+
+
+    }
 
 
 }
+

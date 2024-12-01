@@ -2,6 +2,7 @@ package com.silmarils.microservice02.web.controllers;
 
 import com.silmarils.microservice02.web.dto.PostCreateDto;
 import com.silmarils.microservice02.web.dto.PostResponseDto;
+import com.silmarils.microservice02.web.dto.Postupdatedto;
 import com.silmarils.microservice02.web.dto.mapper.PostMapper;
 import com.silmarils.microservice02.entities.Post;
 import com.silmarils.microservice02.services.PostService;
@@ -10,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -42,13 +45,17 @@ public class PostController {
 
         return ResponseEntity.noContent().build();
     }
-
     @RequestMapping(value ="/{id}",method = RequestMethod.PUT)
-    public ResponseEntity<Post> Update (@PathVariable String id, @RequestBody PostCreateDto postdto) {
-        Post post = postService.create(PostMapper.postDtoToPost(postdto));
-        post.setId(id);
-        postService.update(post);
-        return  ResponseEntity.noContent().build();
+    public ResponseEntity<URI> Update (@PathVariable String id, @RequestBody @Valid Postupdatedto postupdatedto) {
+        Post post = postService.create(PostMapper.postupdateDtoToPost(postupdatedto));
+        Post postUpdated = postService.update(post, id);
+
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequestUri().path("")
+                .buildAndExpand(postUpdated.getId())
+                .toUri();
+
+        return  ResponseEntity.ok(uri);
     }
 
     @GetMapping()
