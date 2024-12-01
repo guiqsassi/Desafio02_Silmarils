@@ -5,6 +5,7 @@ import com.silmarils.microservice02.entities.Post;
 import com.silmarils.microservice02.exceptions.EntityNotFoundException;
 import com.silmarils.microservice02.repository.PostRepository;
 import com.silmarils.microservice02.services.PostService;
+import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,9 +18,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.AssertionsForClassTypes.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest(classes = Microservice02Application.class)
@@ -75,4 +77,36 @@ public class PostUnitTest {
         Assertions.assertEquals(post.getBody(), postCreated.getBody());
     }
 
-}
+    @Test
+    public void postDelete_WithCorrectId() {
+        Post post = new Post("1", 2, "testePost", "O corpo do post");
+
+        when(postRepository.existsById(post.getId())).thenReturn(true);
+
+        assertThatCode(() -> postService.delete(post.getId()))
+                .doesNotThrowAnyException();
+
+        verify(postRepository).deleteById(post.getId());
+    }
+
+
+    @Test
+    public void postDelete_WithIncorrectId() {
+            when(postRepository.existsById("23")).thenReturn(false);
+
+            assertThatThrownBy(() -> postService.delete("23"))
+                    .isInstanceOf(EntityNotFoundException.class)
+                    .hasMessageContaining("Post with id 23 not found");
+
+            verify(postRepository, never()).deleteById("23");
+
+
+            verify(postRepository).existsById("23");
+        }
+
+    }
+
+
+
+
+
