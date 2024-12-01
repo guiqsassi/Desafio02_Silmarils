@@ -64,7 +64,7 @@ public class PostIT {
     }
 
     @Test
-    public void testDeletePost_WitCorrectId_ShouldReturnStatus2()  throws Exception {
+    public void testDeletePost_WitCorrectId_ShouldReturnStatus204()  throws Exception {
 
         webClient.delete()
                 .uri("/api/posts/1")
@@ -73,7 +73,7 @@ public class PostIT {
                 .expectBody()
                 .returnResult().getResponseBody();
 
-        Post post = postRepository.findById("6").orElse(null);
+        Post post = postRepository.findById("1").orElse(null);
 
         Assertions.assertThat(post).isNull();
 
