@@ -6,13 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Document
+@Document(collection = "tb_comment")
 @AllArgsConstructor
 @NoArgsConstructor @Getter @Setter
 public class Comment implements Serializable {
@@ -24,6 +25,7 @@ public class Comment implements Serializable {
     private String email;
     private String name;
     private String body;
+    @DBRef
     private Post postId;
 
     @Override

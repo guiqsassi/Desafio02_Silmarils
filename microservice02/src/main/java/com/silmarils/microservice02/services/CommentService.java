@@ -17,12 +17,18 @@ public class CommentService {
     private CommentRepository commentRepository;
 
     @Autowired
-    private PostService postService;
+    private PostRepository postRepository;
 
     public Comment create(Comment comment) {
-        Post post = postService.findById(comment.getPostId().getId());
+        Post post = postRepository.findById(comment.getPostId().getId())
+                .orElseThrow(()-> new EntityNotFoundException("Post not found with id: " + comment.getPostId().getId()));
         comment.setPostId(post);
-        return commentRepository.save(comment);
+        Comment commentCreated =commentRepository.save(comment);
+        post.getComments().add(commentCreated);
+        postRepository.save(post);
+
+        return commentCreated;
+
     }
 
     public List<Comment> findAll() {
