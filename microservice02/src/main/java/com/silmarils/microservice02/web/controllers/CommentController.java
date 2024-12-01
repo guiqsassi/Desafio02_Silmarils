@@ -2,6 +2,10 @@ package com.silmarils.microservice02.web.controllers;
 
 import com.silmarils.microservice02.entities.Comment;
 import com.silmarils.microservice02.services.CommentService;
+import com.silmarils.microservice02.web.dto.CommentCreateDto;
+import com.silmarils.microservice02.web.dto.CommentResponseDto;
+import com.silmarils.microservice02.web.dto.mapper.CommentMapper;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,24 +20,24 @@ public class CommentController {
     private CommentService commentService;
 
     @PostMapping
-    public ResponseEntity<Comment> create(@RequestBody Comment comment) {
+    public ResponseEntity<CommentResponseDto> create(@RequestBody @Valid CommentCreateDto comment) {
 
-    return new ResponseEntity<>(commentService.create(comment), HttpStatus.CREATED);
+    return new ResponseEntity<>(CommentMapper.toDto(commentService.create(CommentMapper.toComment(comment))), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Comment> get(@PathVariable String id) {
-        return ResponseEntity.ok(commentService.findById(id));
+    public ResponseEntity<CommentResponseDto> get(@PathVariable String id) {
+        return ResponseEntity.ok(CommentMapper.toDto(commentService.findById(id)));
     }
 
     @GetMapping
-    public ResponseEntity<List<Comment>> getAll() {
-        return ResponseEntity.ok(commentService.findAll());
+    public ResponseEntity<List<CommentResponseDto>> getAll() {
+        return ResponseEntity.ok(CommentMapper.toDto(commentService.findAll()));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Comment> update(@PathVariable String id, @RequestBody Comment comment) {
-        return ResponseEntity.ok(commentService.update(id, comment));
+    public ResponseEntity<CommentResponseDto> update(@PathVariable String id, @RequestBody Comment comment) {
+        return ResponseEntity.ok(CommentMapper.toDto(commentService.update(id, comment)));
     }
 
     @DeleteMapping("/{id}")

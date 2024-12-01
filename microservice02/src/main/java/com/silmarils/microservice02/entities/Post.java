@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.repository.Aggregation;
 
@@ -31,7 +32,7 @@ public class Post implements Serializable {
     private String title;
     @Size(min = 1, max = 500)
     private String body;
-    @Indexed
+    @DBRef
     private List<Comment> comments = new ArrayList<>();
 
     public Post(String id, Integer userId, String title, String body) {
