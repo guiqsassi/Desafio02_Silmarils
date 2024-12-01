@@ -28,6 +28,7 @@ public class Post implements Serializable {
     @Size(min = 1, max = 500)
     private String body;
 
+
     @Override
     public String toString() {
         return "Post{" +
