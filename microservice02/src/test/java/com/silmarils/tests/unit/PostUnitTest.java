@@ -5,8 +5,7 @@ import com.silmarils.microservice02.entities.Post;
 import com.silmarils.microservice02.exceptions.EntityNotFoundException;
 import com.silmarils.microservice02.repository.PostRepository;
 import com.silmarils.microservice02.services.PostService;
-import com.silmarils.microservice02.web.dto.Postupdatedto;
-import net.bytebuddy.asm.Advice;
+import com.silmarils.microservice02.web.dto.PostUpdateDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -81,12 +80,10 @@ public class PostUnitTest {
     }
 
     @Test
-    public void testeupadete_whitexpectedid() {
+    public void postUpdate_WithCorrectData() {
 
         Post post = new Post("1", 2, "testePost", "O corpo do post");
-        Postupdatedto postupdatedto = new Postupdatedto();
-        postupdatedto.setTitle("abrobinha");
-        postupdatedto.setBody("abrobinha e um vegetal que parente da abóbora");
+
 
         when(postRepository.findById(post.getId())).thenReturn(Optional.of(post));
         when(postRepository.save(post)).thenReturn(post);
@@ -94,16 +91,28 @@ public class PostUnitTest {
         Post update = postService.update(post, post.getId());
 
 
-        assertNotNull(postupdatedto);
-        assertEquals("abrobinha", postupdatedto.getTitle());
-        assertEquals("abrobinha e um vegetal que parente da abóbora", postupdatedto.getBody());
+        assertNotNull(update);
+        assertEquals(post.getTitle(), update.getTitle());
+        assertEquals(post.getBody(), update.getBody());
         verify(postRepository, times(1)).findById(post.getId());
         verify(postRepository, times(1)).save(post);
 
+    }
+
+    @Test
+    public void postUpdate_WithInvalidId() {
+
+        Post post = new Post("1", 2, "testePost", "O corpo do post");
+
+        when(postRepository.findById(post.getId())).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> {
+            postService.update(post, post.getId());
+        });
 
     }
-}
 
+    @Test
     public void postDelete_WithCorrectId() {
         Post post = new Post("1", 2, "testePost", "O corpo do post");
 
@@ -118,20 +127,19 @@ public class PostUnitTest {
 
     @Test
     public void postDelete_WithIncorrectId() {
-            when(postRepository.existsById("23")).thenReturn(false);
+        when(postRepository.existsById("23")).thenReturn(false);
 
-            assertThatThrownBy(() -> postService.delete("23"))
-                    .isInstanceOf(EntityNotFoundException.class)
-                    .hasMessageContaining("Post with id 23 not found");
+        assertThatThrownBy(() -> postService.delete("23"))
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessageContaining("Post with id 23 not found");
 
-            verify(postRepository, never()).deleteById("23");
+        verify(postRepository, never()).deleteById("23");
 
 
-            verify(postRepository).existsById("23");
-        }
-
+        verify(postRepository).existsById("23");
     }
 
+}
 
 
 
