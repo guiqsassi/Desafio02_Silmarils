@@ -1,20 +1,24 @@
 package com.silmarils.tests.web;
 
 import com.silmarils.microservice02.Microservice02Application;
+import com.silmarils.microservice02.exceptions.EntityNotFoundException;
 import com.silmarils.microservice02.web.dto.PostResponseDto;
 import com.silmarils.microservice02.entities.Post;
 import com.silmarils.microservice02.repository.PostRepository;
 import com.silmarils.microservice02.web.controllers.exception.ErrorMessage;
 import com.silmarils.tests.config.EmbeddedMongoConfig;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import java.util.List;
+import static org.mockito.Mockito.when;
 
 
 
@@ -60,6 +64,38 @@ public class PostIT {
     }
 
     @Test
+    public void testDeletePost_WitCorrectId_ShouldReturnStatus204()  throws Exception {
+
+        webClient.delete()
+                .uri("/api/posts/1")
+                .exchange()
+                .expectStatus().isNoContent()
+                .expectBody()
+                .returnResult().getResponseBody();
+
+        Post post = postRepository.findById("1").orElse(null);
+
+        Assertions.assertThat(post).isNull();
+
+    }
+  
+@Test
+    public void testDeletePost_WitIncorrectId_ShouldReturnStatus404()  throws Exception {
+
+    var errorResponse = webClient.delete()
+            .uri("/api/posts/6")
+            .exchange()
+            .expectStatus().isEqualTo(HttpStatus.NOT_FOUND)
+            .expectBody(ErrorMessage.class)
+            .returnResult()
+            .getResponseBody();
+
+
+        org.assertj.core.api.Assertions.assertThat(errorResponse).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(errorResponse.getMessage()).isEqualTo("Post with id 6 not found, not possible to delete");
+    }
+
+
     public void testGetAll_ShouldReturnListOfPostsStatus200(){
         webClient.get()
                 .uri("/api/posts")

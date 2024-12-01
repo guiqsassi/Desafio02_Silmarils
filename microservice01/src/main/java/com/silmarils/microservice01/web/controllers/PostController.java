@@ -36,6 +36,7 @@ public class PostController {
     @PostMapping("")
     public ResponseEntity<PostResponseDto> createPost( @RequestBody PostCreateDto postCreateDto) {
         return postConsumerFeign.save(postCreateDto);
+
     }
 
     @PutMapping("/{id}")
