@@ -33,7 +33,7 @@ public class CommentController {
 
     @GetMapping
     public ResponseEntity<List<CommentResponseDto>> getAll() {
-        return ResponseEntity.ok(CommentMapper.toDto(commentService.findAll()));
+        return ResponseEntity.ok(CommentMapper.toListDto(commentService.findAll()));
     }
 
     @PutMapping("/{id}")
