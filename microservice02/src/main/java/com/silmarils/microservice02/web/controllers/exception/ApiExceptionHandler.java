@@ -25,11 +25,22 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException exception) {
+    public ResponseEntity<ErrorMessage> handleValidationExceptions(MethodArgumentNotValidException exception, HttpServletRequest request) {
         Map<String, String> errors = new HashMap<>();
         exception.getBindingResult().getFieldErrors().forEach(error ->
                 errors.put(error.getField(), error.getDefaultMessage()));
-        return ResponseEntity.badRequest().body(errors);
+
+        StringBuilder errorMessage = new StringBuilder();
+        errors.forEach((field, message) ->
+                errorMessage.append(field).append(": ").append(message).append(". "));
+
+        ErrorMessage errorResponse = new ErrorMessage(
+                request,
+                HttpStatus.BAD_REQUEST,
+                errorMessage.toString()
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

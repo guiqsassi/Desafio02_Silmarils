@@ -12,7 +12,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @ToString
 
-public class Postupdatedto implements Serializable {
+public class PostUpdateDto implements Serializable {
 
     @NotBlank
     @Size(min = 5, max = 50)
