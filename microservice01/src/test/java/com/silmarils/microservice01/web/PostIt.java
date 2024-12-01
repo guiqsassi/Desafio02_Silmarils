@@ -4,6 +4,8 @@ import com.silmarils.microservice01.Microservice01Application;
 import com.silmarils.microservice01.dtos.PostCreateDto;
 import com.silmarils.microservice01.dtos.PostResponseDto;
 import com.silmarils.microservice01.dtos.PostUpdateDto;
+import com.silmarils.microservice01.exceptions.BadRequestException;
+import com.silmarils.microservice01.exceptions.EntityNotFoundException;
 import com.silmarils.microservice01.feignClients.PostConsumerFeign;
 import feign.Response;
 import org.junit.jupiter.api.AfterEach;
@@ -42,6 +44,19 @@ public class PostIt {
     }
 
     @Test
+    public void postCreate_WithInvalidData_ThrowBadRequestException(){
+        PostCreateDto postCreated = new PostCreateDto(23, "ti", "Bom dia pessoal");
+        Assertions.assertThrows(BadRequestException.class, () -> {postConsumerFeign.save(postCreated);});
+
+        PostCreateDto postCreated2 = new PostCreateDto(23, "titulo", "Bom");
+        Assertions.assertThrows(BadRequestException.class, () -> {postConsumerFeign.save(postCreated2);});
+
+        PostCreateDto postCreated3 = new PostCreateDto(null, "titulo", "Bom Dia pessoal");
+        Assertions.assertThrows(BadRequestException.class, () -> {postConsumerFeign.save(postCreated3);});
+
+    }
+
+    @Test
     public void getPostById_WithValidId_ExpectStatus200(){
         PostCreateDto postCreate = new PostCreateDto(23, "Titulo", "Bom dia pessoal");
         ResponseEntity<PostResponseDto> postCreated = postConsumerFeign.save
@@ -56,6 +71,11 @@ public class PostIt {
 
         postConsumerFeign.delete(read.getBody().getId());
 
+    }
+
+    @Test
+    public void getPostById_WithNonExistentId_ThrowEntityNotFoundException(){
+        Assertions.assertThrows(EntityNotFoundException.class, () -> { postConsumerFeign.getById("TesteId01");});
 
     }
 
@@ -69,6 +89,12 @@ public class PostIt {
        Assertions.assertEquals(res.getStatusCode(), HttpStatusCode.valueOf(204));
 
     }
+
+    @Test
+    public void DeletePostById_WithNonExistentId_ThrowEntityNotFoundException(){
+        Assertions.assertThrows(EntityNotFoundException.class, () -> { postConsumerFeign.delete("TesteId01");});
+    }
+
 
     @Test
     public void list_ExpectStatus200WithListOfPosts(){
@@ -89,7 +115,30 @@ public class PostIt {
         PostUpdateDto postUpdate = new PostUpdateDto("Titulo Atualizado", "Bom tarde pessoal");
         ResponseEntity<String> response = postConsumerFeign.update(dto.getId() ,postUpdate);
 
-        Assertions.assertEquals(response.getStatusCode(), HttpStatusCode.valueOf(204));
+        Assertions.assertEquals(response.getStatusCode(), HttpStatusCode.valueOf(200));
+
+        postConsumerFeign.delete(dto.getId());
+    }
+
+    @Test
+    public void updatePost_WithInvalidId_ThrowEntityNotFoundException(){
+
+        PostUpdateDto postUpdate = new PostUpdateDto("Titulo Atualizado", "Bom tarde pessoal");
+        Assertions.assertThrows(EntityNotFoundException.class, () -> { postConsumerFeign.update("TesteId01", postUpdate);});
+
+    }
+
+    @Test
+    public void updatePost_WithInvalidData_ExpectStatus400(){
+        PostCreateDto postCreated = new PostCreateDto(23, "Titulo", "Bom dia pessoal");
+        ResponseEntity<PostResponseDto> res = postConsumerFeign.save(postCreated);
+        PostResponseDto dto =res.getBody();
+
+        PostUpdateDto postUpdate = new PostUpdateDto("Tit", "Bom tarde pessoal");
+        Assertions.assertThrows(BadRequestException.class, () -> { postConsumerFeign.update(dto.getId(), postUpdate);});
+
+        PostUpdateDto postUpdate2 = new PostUpdateDto("Titutlo atualizado", "Bom");
+        Assertions.assertThrows(BadRequestException.class, () -> { postConsumerFeign.update(dto.getId(), postUpdate2);});
 
         postConsumerFeign.delete(dto.getId());
     }
