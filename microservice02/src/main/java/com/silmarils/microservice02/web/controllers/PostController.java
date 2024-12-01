@@ -2,7 +2,7 @@ package com.silmarils.microservice02.web.controllers;
 
 import com.silmarils.microservice02.web.dto.PostCreateDto;
 import com.silmarils.microservice02.web.dto.PostResponseDto;
-import com.silmarils.microservice02.web.dto.Postupdatedto;
+import com.silmarils.microservice02.web.dto.PostUpdateDto;
 import com.silmarils.microservice02.web.dto.mapper.PostMapper;
 import com.silmarils.microservice02.entities.Post;
 import com.silmarils.microservice02.services.PostService;
@@ -46,8 +46,8 @@ public class PostController {
         return ResponseEntity.noContent().build();
     }
     @RequestMapping(value ="/{id}",method = RequestMethod.PUT)
-    public ResponseEntity<URI> Update (@PathVariable String id, @RequestBody @Valid Postupdatedto postupdatedto) {
-        Post post = postService.create(PostMapper.postupdateDtoToPost(postupdatedto));
+    public ResponseEntity<URI> Update (@PathVariable String id, @RequestBody @Valid PostUpdateDto postupdatedto) {
+        Post post = postService.create(PostMapper.postUpdateDtoToPost(postupdatedto));
         Post postUpdated = postService.update(post, id);
 
         URI uri = ServletUriComponentsBuilder

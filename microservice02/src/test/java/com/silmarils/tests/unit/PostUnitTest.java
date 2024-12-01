@@ -6,6 +6,7 @@ import com.silmarils.microservice02.exceptions.EntityNotFoundException;
 import com.silmarils.microservice02.repository.PostRepository;
 import com.silmarils.microservice02.services.PostService;
 import com.silmarils.microservice02.web.dto.Postupdatedto;
+import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,6 +20,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.AssertionsForClassTypes.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -100,3 +103,36 @@ public class PostUnitTest {
 
     }
 }
+
+    public void postDelete_WithCorrectId() {
+        Post post = new Post("1", 2, "testePost", "O corpo do post");
+
+        when(postRepository.existsById(post.getId())).thenReturn(true);
+
+        assertThatCode(() -> postService.delete(post.getId()))
+                .doesNotThrowAnyException();
+
+        verify(postRepository).deleteById(post.getId());
+    }
+
+
+    @Test
+    public void postDelete_WithIncorrectId() {
+            when(postRepository.existsById("23")).thenReturn(false);
+
+            assertThatThrownBy(() -> postService.delete("23"))
+                    .isInstanceOf(EntityNotFoundException.class)
+                    .hasMessageContaining("Post with id 23 not found");
+
+            verify(postRepository, never()).deleteById("23");
+
+
+            verify(postRepository).existsById("23");
+        }
+
+    }
+
+
+
+
+
