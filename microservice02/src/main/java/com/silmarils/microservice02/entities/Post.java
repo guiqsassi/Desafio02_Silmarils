@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.repository.Aggregation;
 
@@ -30,8 +31,15 @@ public class Post implements Serializable {
     private String title;
     @Size(min = 1, max = 500)
     private String body;
+    @Indexed
     private List<Comment> comments = new ArrayList<>();
 
+    public Post(String id, Integer userId, String title, String body) {
+        this.id = id;
+        this.userId = userId;
+        this.title = title;
+        this.body = body;
+    }
 
     @Override
     public String toString() {
