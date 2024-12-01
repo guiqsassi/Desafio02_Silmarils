@@ -4,6 +4,7 @@ import com.silmarils.microservice02.entities.Comment;
 import com.silmarils.microservice02.services.CommentService;
 import com.silmarils.microservice02.web.dto.CommentCreateDto;
 import com.silmarils.microservice02.web.dto.CommentResponseDto;
+import com.silmarils.microservice02.web.dto.CommentUpdateDto;
 import com.silmarils.microservice02.web.dto.mapper.CommentMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,8 @@ public class CommentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CommentResponseDto> update(@PathVariable String id, @RequestBody Comment comment) {
-        return ResponseEntity.ok(CommentMapper.toDto(commentService.update(id, comment)));
+    public ResponseEntity<CommentResponseDto> update(@PathVariable String id, @RequestBody @Valid CommentUpdateDto comment) {
+        return ResponseEntity.ok(CommentMapper.toDto(commentService.update(id, CommentMapper.toComment(comment))));
     }
 
     @DeleteMapping("/{id}")

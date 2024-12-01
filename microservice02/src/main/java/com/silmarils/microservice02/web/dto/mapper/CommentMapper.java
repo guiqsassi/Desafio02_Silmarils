@@ -5,6 +5,7 @@ import com.silmarils.microservice02.entities.Comment;
 import com.silmarils.microservice02.entities.Post;
 import com.silmarils.microservice02.web.dto.CommentCreateDto;
 import com.silmarils.microservice02.web.dto.CommentResponseDto;
+import com.silmarils.microservice02.web.dto.CommentUpdateDto;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
@@ -28,5 +29,9 @@ public class CommentMapper {
     public static List<CommentResponseDto> toDto(List<Comment> comment){
 
         return comment.stream().map(CommentMapper::toDto).toList();
+    }
+
+    public static Comment toComment(CommentUpdateDto updateDto){
+        return new ModelMapper().map(updateDto, Comment.class);
     }
 }
