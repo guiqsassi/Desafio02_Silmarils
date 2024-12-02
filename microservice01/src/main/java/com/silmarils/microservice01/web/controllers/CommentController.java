@@ -33,6 +33,9 @@ public class CommentController {
     @GetMapping("{id}")
     public  ResponseEntity<CommentResponseDto> getCommentById(@PathVariable String id) { return commentConsumerFeing.getCommentById(id);}
 
+    @GetMapping("/post/{id}")
+    public  ResponseEntity<List<CommentResponseDto>> getCommentByPostId(@PathVariable String id) { return commentConsumerFeing.getCommentByPostId(id);}
+
     @DeleteMapping("{id}")
     public ResponseEntity<?> delete(@PathVariable String id) { return commentConsumerFeing.delete(id);}
 

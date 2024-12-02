@@ -20,6 +20,9 @@ public interface CommentConsumerFeing {
     @GetMapping("/{id}")
     public ResponseEntity<CommentResponseDto> getCommentById(@PathVariable("id") String id);
 
+    @GetMapping("/post/{id}")
+    public ResponseEntity<List<CommentResponseDto>> getCommentByPostId(@PathVariable("id") String id);
+
     @PostMapping("")
     public ResponseEntity<CommentResponseDto> save(CommentCreateDto commentCreateDto);
 

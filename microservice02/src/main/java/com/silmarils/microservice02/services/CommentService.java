@@ -50,11 +50,16 @@ public class CommentService {
     }
 
     public void delete(String id) {
-        if(!commentRepository.existsById(id)){
-            throw new EntityNotFoundException("comment with id: " + id + " not found");
-        }
+        Comment commentToDelete = findById(id);
+
+        Post post = postRepository.findById(commentToDelete.getPostId().getId()).orElseThrow(() ->
+                new EntityNotFoundException("Post with id: " + id + " not found"));
+
+        post.getComments().remove(commentToDelete);
+        postRepository.save(post);
         commentRepository.deleteById(id);
     }
+
 
     public List<Comment> findByEmail(String email) {
 
@@ -64,6 +69,12 @@ public class CommentService {
         }
 
         return comment;
+
+    public List<Comment> findByPost(String postId){
+        if(!postRepository.existsById(postId)){
+            throw new EntityNotFoundException("post with id: " + postId + " not found");
+        }
+        return commentRepository.findByPostId(postId);
     }
 
 

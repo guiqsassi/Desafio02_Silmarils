@@ -118,6 +118,33 @@ public class CommentUnitTest {
     }
 
     @Test
+    public void testGetAllComments_WithValidPostId(){
+        Post post = new Post();
+        post.setId("1");
+        Comment comment1 = new Comment("1", "mary@gmail.com", "nome1", "corpo do comentario", post);
+        Comment comment2 = new Comment("2", "mary@gmail.com", "nome2", "corpo do comentario2", post);
+        Comment comment3 = new Comment("3", "claudio@gmail.com", "nome3", "corpo do comentario3", post);
+        when(commentRepository.findByPostId(any())).thenReturn(List.of(comment3, comment2, comment1));
+
+        List<Comment> commentList = commentService.findByPost(post.getId());
+
+        Assertions.assertNotNull(commentList);
+        Assertions.assertEquals(3, commentList.size());
+
+    }
+
+    @Test
+    public void testGetAllComments_WithInvalidPostId(){
+
+        when(postRepository.existsById(any())).thenReturn(false);
+
+        Assertions.assertThrows(EntityNotFoundException.class, ()->{
+            commentService.findByPost("1");
+        });
+
+    }
+
+    @Test
     public void testGetAllComments(){
 
         Comment comment1 = new Comment("1", "mary@gmail.com", "nome1", "corpo do comentario", null);

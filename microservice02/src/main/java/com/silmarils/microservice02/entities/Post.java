@@ -61,4 +61,6 @@ public class Post implements Serializable {
     public int hashCode() {
         return Objects.hashCode(this.getId());
     }
+
+
 }
