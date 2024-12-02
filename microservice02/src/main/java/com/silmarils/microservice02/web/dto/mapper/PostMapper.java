@@ -24,7 +24,7 @@ public class PostMapper {
     }
 
     public static List<PostResponseDto> postToPostResponseDtoList(List<Post> posts){
-        return new ModelMapper().map(posts, List.class);
+        return posts.stream().map(PostMapper::postToPostResponseDto).toList();
     }
 
     public static Post postUpdateDtoToPost(PostUpdateDto dto){
