@@ -46,16 +46,10 @@ public class PostController {
         return ResponseEntity.noContent().build();
     }
     @RequestMapping(value ="/{id}",method = RequestMethod.PUT)
-    public ResponseEntity<URI> Update (@PathVariable String id, @RequestBody @Valid PostUpdateDto postupdatedto) {
+    public ResponseEntity<PostResponseDto> Update (@PathVariable String id, @RequestBody @Valid PostUpdateDto postupdatedto) {
         Post post = postService.create(PostMapper.postUpdateDtoToPost(postupdatedto));
-        Post postUpdated = postService.update(post, id);
 
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequestUri().path("")
-                .buildAndExpand(postUpdated.getId())
-                .toUri();
-
-        return  ResponseEntity.ok(uri);
+        return  ResponseEntity.ok(PostMapper.postToPostResponseDto(postService.update(post, id)));
     }
 
     @GetMapping()

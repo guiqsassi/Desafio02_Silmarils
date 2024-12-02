@@ -22,7 +22,7 @@ public interface PostConsumerFeign {
     public ResponseEntity<PostResponseDto> save(@RequestBody PostCreateDto post);
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable("id") String id, @RequestBody PostUpdateDto post);
+    public ResponseEntity<PostResponseDto> update(@PathVariable("id") String id, @RequestBody PostUpdateDto post);
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") String id);
