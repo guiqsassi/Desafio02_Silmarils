@@ -67,7 +67,12 @@ _Para instalar este projeto você precisa:_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## 📖 Documentação
 
+   Acesse a documentação em:
+
+   http://localhost:8081/post-api 
+   e http://localhost:8080/swagger-ui/index.html
 
 <!-- CONTACT -->
 ## 💬 Desenvolvedores
@@ -77,6 +82,7 @@ _Para instalar este projeto você precisa:_
 * Guilherme Queiroz Sassi - https://github.com/guiqsassi
 * Mateus Gasda - https://github.com/MattewGG
 * Joao Pedro Consoli Strada - https://github.com/JopePvP
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
