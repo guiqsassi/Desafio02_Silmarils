@@ -19,7 +19,7 @@ public class PostService {
     public Post create(Post post) {
         try {
             return postRepository.save(post);
-        }catch(Exception e) {
+        } catch(Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
@@ -33,15 +33,14 @@ public class PostService {
     }
 
     public void delete(String id) {
-        if(id == null || !postRepository.existsById(id)){
-            throw new EntityNotFoundException(String.format("Post with id %s not found, not possible to delete", id));
-        }
+
+        Post post = postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("Post with id %s not found, not possible to delete", id)));
 
         postRepository.deleteById(id);
     }
 
     public Post update(Post postNewData, String id) {
-        Post post = this.findById(id);
+        Post post = postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("Post with id %s not found", id)));
 
         if(!postNewData.getBody().equals(post.getBody())){
             post.setBody(postNewData.getBody());
