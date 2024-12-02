@@ -59,7 +59,7 @@ _Para instalar este projeto você precisa:_
    DB_USERNAME=username
    DB_PASSWORD=password
    ```
-3. Rodar o script de execução do backend
+3. Rodar o script de execução do backend ou inicialize os microservicos em uma 
      ```sh
    cd ./Desafio02_Silmarils 
    powershell.exe ./backend-run.sh
