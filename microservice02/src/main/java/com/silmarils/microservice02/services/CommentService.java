@@ -5,6 +5,7 @@ import com.silmarils.microservice02.entities.Post;
 import com.silmarils.microservice02.exceptions.EntityNotFoundException;
 import com.silmarils.microservice02.repository.CommentRepository;
 import com.silmarils.microservice02.repository.PostRepository;
+import com.sun.jna.platform.win32.COM.util.ComEventCallbackCookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +54,16 @@ public class CommentService {
             throw new EntityNotFoundException("comment with id: " + id + " not found");
         }
         commentRepository.deleteById(id);
+    }
+
+    public List<Comment> findByEmail(String email) {
+
+        List<Comment> comment = commentRepository.findAllByEmail(email);
+        if (comment.isEmpty()) {
+            throw new EntityNotFoundException("comments with email: " + email + " not found");
+        }
+
+        return comment;
     }
 
 

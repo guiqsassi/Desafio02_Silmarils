@@ -145,5 +145,34 @@ public class CommentsIt {
     public void DeleteCommentById_WithNonExistentId_ThrowEntityNotFoundException(){
         Assertions.assertThrows(EntityNotFoundException.class, () -> { commentConsumerFeing.delete("TesteId01");});
     }
+
+
+
+    @Test
+    public void getCommentByEmail_WithValidEmail_ExpectStatus200() {
+
+        CommentCreateDto commentCreateDto = new CommentCreateDto("tank@gmail.com", "nicename", "paster", "28");
+        ResponseEntity<CommentResponseDto> saveResponse = commentConsumerFeing.save(commentCreateDto);
+
+        ResponseEntity<List<CommentResponseDto>> response = commentConsumerFeing.getByEmail(commentCreateDto.getEmail());
+        Assertions.assertNotNull(response.getBody());
+        Assertions.assertFalse(response.getBody().isEmpty(), "A lista de comentários está vazia.");
+
+        CommentResponseDto firstComment = response.getBody().get(0);
+
+        ResponseEntity<CommentResponseDto> readResponse = commentConsumerFeing.getCommentById(firstComment.getId());
+        Assertions.assertNotNull(readResponse.getBody());
+        Assertions.assertEquals(readResponse.getBody().getName(), commentCreateDto.getName());
+        Assertions.assertEquals(readResponse.getBody().getBody(), commentCreateDto.getBody());
+
+        commentConsumerFeing.delete(firstComment.getId());
+    }
+
+    @Test
+    public void getCommentByEmail_WithInvalidEmail_ExpectStatus200() {
+        Assertions.assertThrows(EntityNotFoundException.class, () -> { commentConsumerFeing.getByEmail(" ");});
+    }
+
+
 }
 

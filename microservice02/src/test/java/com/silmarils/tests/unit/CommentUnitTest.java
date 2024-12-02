@@ -42,7 +42,7 @@ public class CommentUnitTest {
 
     @Test
     public void testCreatComment_WithValidData() {
-        Post post = new Post("1", 2, "testePost", "O corpo do post");
+        Post post = new Post("1", 2, "CommentUnitTesttestePost", "O corpo do post");
         Comment comment1 = new Comment("1", "mary@gmail.com", "nome1", "corpo do comentario", post);
 
         when(postRepository.findById(post.getId())).thenReturn(Optional.of(post));
@@ -159,6 +159,33 @@ public class CommentUnitTest {
 
         Assertions.assertThrows(EntityNotFoundException.class, ()->{
             commentService.update("1", null);
+        });
+
+    }
+
+
+    @Test
+    public void testGetCommentByEmail(){
+
+        Comment comment1 = new Comment("1", "mary@gmail.com", "nome1", "corpo do comentario", null);
+        Comment comment2 = new Comment("1", "mary@gmail.com", "nome1", "corpo do comentario", null);
+        when(commentRepository.findAllByEmail("mary@gmail.com")).thenReturn(List.of(comment1, comment2));
+
+        List<Comment> commentList = commentService.findByEmail("mary@gmail.com");
+
+        Assertions.assertNotNull(commentList);
+        Assertions.assertEquals(2, commentList.size());
+
+    }
+
+
+
+    @Test
+    public void testGetCommentByIncorrectEmail(){
+
+        Comment comment1 = new Comment("1", "mary@gmail.com", "nome1", "corpo do comentario", null);
+        Assertions.assertThrows(EntityNotFoundException.class, ()->{
+            commentService.findByEmail("mary@gmail.com");
         });
 
     }

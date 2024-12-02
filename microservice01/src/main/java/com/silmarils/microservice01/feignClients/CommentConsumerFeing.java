@@ -4,6 +4,7 @@ import com.silmarils.microservice01.config.MyFeignClientConfiguration;
 import com.silmarils.microservice01.dtos.CommentCreateDto;
 import com.silmarils.microservice01.dtos.CommentResponseDto;
 import com.silmarils.microservice01.dtos.CommentUpdateDto;
+import com.silmarils.microservice01.dtos.PostResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,9 @@ public interface CommentConsumerFeing {
 
     @DeleteMapping("/{id}")
     public  ResponseEntity<?> delete(@PathVariable("id") String id);
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<List<CommentResponseDto>> getByEmail(@PathVariable("email") String email);
 
 
 

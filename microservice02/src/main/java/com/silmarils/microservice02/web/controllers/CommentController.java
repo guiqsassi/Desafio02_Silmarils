@@ -47,6 +47,13 @@ public class CommentController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/email/{email}")
+    public  ResponseEntity<List<CommentResponseDto>> getByEmail(@PathVariable String email) {
+     commentService.findByEmail(email);
+
+     return ResponseEntity.ok(CommentMapper.toListDto(commentService.findByEmail(email)));
+    }
+
 
 
 }
