@@ -77,9 +77,6 @@ _Para instalar este projeto você precisa:_
 * Guilherme Queiroz Sassi - https://github.com/guiqsassi
 * Mateus Gasda - https://github.com/MattewGG
 * Joao Pedro Consoli Strada - https://github.com/JopePvP
-
-
-* https://github.com/MattewGG
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
