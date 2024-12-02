@@ -18,7 +18,7 @@ public class DocConfig {
                 new Info().title("Microservice01")
                         .version("1.0")
                         .description("Microservice01 tem a função de fazer a conexão com o microservice02 e por assim puxar os dados do banco de dados")
-                        .contact(new Contact().email("equipesilmarils@gmail.com").url("https://github.com/equipesilmarils"))
+                        .contact(new Contact().email("equipesilmarils@gmail.com").url("https://github.com/guiqsassi/Desafio02_Silmarils"))
 
 
         );
