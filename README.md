@@ -83,7 +83,6 @@ _Para instalar este projeto você precisa:_
 * Mateus Gasda - https://github.com/MattewGG
 * Joao Pedro Consoli Strada - https://github.com/JopePvP
 
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
