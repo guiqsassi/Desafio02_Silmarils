@@ -80,3 +80,16 @@ public class CommentController {
     @DeleteMapping("{id}")
     public ResponseEntity<?> delete(@PathVariable String id) { return commentConsumerFeing.delete(id);}
 }
+
+    @GetMapping("/post/{id}")
+    public  ResponseEntity<List<CommentResponseDto>> getCommentByPostId(@PathVariable String id) { return commentConsumerFeing.getCommentByPostId(id);}
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> delete(@PathVariable String id) { return commentConsumerFeing.delete(id);}
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<List<CommentResponseDto>> getByEmail(@PathVariable String email) { return commentConsumerFeing.getByEmail(email);}
+
+
+}
+

@@ -8,10 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.repository.Aggregation;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -63,4 +61,6 @@ public class Post implements Serializable {
     public int hashCode() {
         return Objects.hashCode(this.getId());
     }
+
+
 }

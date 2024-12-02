@@ -16,8 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import java.util.List;
@@ -155,7 +153,7 @@ public class CommentIT {
     }
 
     @Test
-    public void getAll_ShouldReturnListOfCommentsWithStatus404(){
+    public void getAll_ShouldReturnListOfCommentsWithStatus200(){
 
         List<CommentResponseDto> res = webClient
                 .get()
@@ -167,6 +165,38 @@ public class CommentIT {
 
         Assertions.assertThat(res).isNotNull();
     }
+
+    @Test
+    public void getAllByPostId_WithExistentPostId_ShouldReturnListOfCommentsWithStatus200(){
+
+        List<CommentResponseDto> res = webClient
+                .get()
+                .uri("/api/comments/post/1")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(CommentResponseDto.class)
+                .returnResult().getResponseBody();
+
+        Assertions.assertThat(res).isNotNull();
+        Assertions.assertThat(res).isNotEmpty();
+        Assertions.assertThat(res).hasSize(2);
+    }
+
+    @Test
+    public void getAllByPostId_WithNonExistentPostId_ShouldReturnListOfCommentsWithStatus200(){
+
+        ErrorMessage res = webClient
+                .get()
+                .uri("/api/comments/post/1000")
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        Assertions.assertThat(res).isNotNull();
+        Assertions.assertThat(res.getStatus()).isEqualTo(404);
+    }
+
 
 
 
@@ -245,6 +275,35 @@ public class CommentIT {
                 .expectBody(ErrorMessage.class).returnResult().getResponseBody();
 
         Assertions.assertThat(res.getStatus()).isEqualTo(400);
+
+    }
+
+
+    @Test
+    public void FindComment_WithExistentEmail_ShouldReturnCommentStatus200(){
+
+        List<CommentResponseDto> res = webClient
+                .put()
+                .uri("/api/comments/email/Brennon@carmela.tv")
+                .exchange()
+                .expectBodyList(CommentResponseDto.class)
+                .returnResult().getResponseBody();
+
+        Assertions.assertThat(res).isNotNull();
+
+    }
+
+    @Test
+    public void FindComment_WithNonExistentEmail_ShouldReturnCommentStatus404(){
+        ErrorMessage res = webClient
+                .put()
+                .uri("/api/comments/email/marc@gmail.")
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBody(ErrorMessage.class).returnResult().getResponseBody();
+
+        Assertions.assertThat(res.getStatus()).isEqualTo(400);
+
 
     }
 
