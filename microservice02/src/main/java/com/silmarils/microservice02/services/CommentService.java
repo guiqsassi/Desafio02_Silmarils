@@ -49,9 +49,13 @@ public class CommentService {
     }
 
     public void delete(String id) {
-        if(!commentRepository.existsById(id)){
-            throw new EntityNotFoundException("comment with id: " + id + " not found");
-        }
+        Comment commentToDelete = findById(id);
+
+        Post post = postRepository.findById(commentToDelete.getPostId().getId()).orElseThrow(() ->
+                new EntityNotFoundException("Post with id: " + id + " not found"));
+
+        post.getComments().remove(commentToDelete);
+        postRepository.save(post);
         commentRepository.deleteById(id);
     }
 
