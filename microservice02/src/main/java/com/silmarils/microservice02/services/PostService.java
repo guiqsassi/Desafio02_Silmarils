@@ -2,6 +2,7 @@ package com.silmarils.microservice02.services;
 
 import com.silmarils.microservice02.entities.Post;
 import com.silmarils.microservice02.exceptions.EntityNotFoundException;
+import com.silmarils.microservice02.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.silmarils.microservice02.repository.PostRepository;
@@ -15,6 +16,9 @@ public class PostService {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     public Post create(Post post) {
         try {
@@ -37,6 +41,7 @@ public class PostService {
             throw new EntityNotFoundException(String.format("Post with id %s not found, not possible to delete", id));
         }
 
+        commentRepository.deleteAllByPostId_Id(id);
         postRepository.deleteById(id);
     }
 
