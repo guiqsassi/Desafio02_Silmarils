@@ -69,6 +69,7 @@ public class CommentService {
         }
 
         return comment;
+    }
 
     public List<Comment> findByPost(String postId){
         if(!postRepository.existsById(postId)){
