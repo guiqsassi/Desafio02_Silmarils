@@ -56,6 +56,9 @@ public class CommentService {
     }
 
     public List<Comment> findByPost(String postId){
+        if(!postRepository.existsById(postId)){
+            throw new EntityNotFoundException("post with id: " + postId + " not found");
+        }
         return commentRepository.findByPostId(postId);
     }
 
