@@ -35,7 +35,7 @@ O sistema é composto por dois microserviços desenvolvidos em Java Spring Boot 
 
 ### 📋 Pré-requisitos
 
-É necessário ter JDK-17, JVM e MongoDB instalados em sua máquina para rodar esse projeto
+É necessário ter JDK-17, JVM, Maven e MongoDB instalados em sua máquina para rodar esse projeto
 
 ### 🔧 Instalação
 
@@ -60,7 +60,7 @@ _Para instalar este projeto você precisa:_
    DB_PASSWORD=password
    ```
 3. Rodar o script de execução do backend
-  ```sh
+     ```sh
    cd ./Desafio02_Silmarils 
    powershell.exe ./backend-run.sh
    ```
