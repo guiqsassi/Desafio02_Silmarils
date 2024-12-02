@@ -50,7 +50,7 @@ public class CommentService {
 
     public void delete(String id) {
         if(!commentRepository.existsById(id)){
-            throw new RuntimeException("comment with id: " + id + " not found");
+            throw new EntityNotFoundException("comment with id: " + id + " not found");
         }
         commentRepository.deleteById(id);
     }
