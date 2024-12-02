@@ -5,7 +5,6 @@ import com.silmarils.microservice02.entities.Post;
 import com.silmarils.microservice02.exceptions.EntityNotFoundException;
 import com.silmarils.microservice02.repository.PostRepository;
 import com.silmarils.microservice02.services.PostService;
-import com.silmarils.microservice02.web.dto.PostUpdateDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

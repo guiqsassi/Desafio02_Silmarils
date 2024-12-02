@@ -8,10 +8,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Document(collection = "tb_post")
@@ -27,7 +30,15 @@ public class Post implements Serializable {
     private String title;
     @Size(min = 1, max = 500)
     private String body;
+    @DBRef
+    private List<Comment> comments = new ArrayList<>();
 
+    public Post(String id, Integer userId, String title, String body) {
+        this.id = id;
+        this.userId = userId;
+        this.title = title;
+        this.body = body;
+    }
 
     @Override
     public String toString() {
@@ -50,4 +61,6 @@ public class Post implements Serializable {
     public int hashCode() {
         return Objects.hashCode(this.getId());
     }
+
+
 }

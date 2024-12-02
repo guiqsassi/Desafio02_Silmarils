@@ -11,9 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -46,16 +43,10 @@ public class PostController {
         return ResponseEntity.noContent().build();
     }
     @RequestMapping(value ="/{id}",method = RequestMethod.PUT)
-    public ResponseEntity<URI> Update (@PathVariable String id, @RequestBody @Valid PostUpdateDto postupdatedto) {
+    public ResponseEntity<PostResponseDto> Update (@PathVariable String id, @RequestBody @Valid PostUpdateDto postupdatedto) {
         Post post = postService.create(PostMapper.postUpdateDtoToPost(postupdatedto));
-        Post postUpdated = postService.update(post, id);
 
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequestUri().path("")
-                .buildAndExpand(postUpdated.getId())
-                .toUri();
-
-        return  ResponseEntity.ok(uri);
+        return  ResponseEntity.ok(PostMapper.postToPostResponseDto(postService.update(post, id)));
     }
 
     @GetMapping()

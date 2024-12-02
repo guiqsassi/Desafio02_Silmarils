@@ -40,7 +40,7 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable String id, @RequestBody PostUpdateDto post){
+    public ResponseEntity<PostResponseDto> update(@PathVariable String id, @RequestBody PostUpdateDto post){
         return postConsumerFeign.update(id, post);
     }
 
