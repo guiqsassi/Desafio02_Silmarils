@@ -173,7 +173,7 @@ public class CommentsIt {
 
     @Test
     public void DeleteCommentById_WithNonExistentId_ThrowEntityNotFoundException(){
-        Assertions.assertThrows(UndeclaredThrowableException.class, () -> { commentConsumerFeing.delete("TesteId01");});
+        Assertions.assertThrows(EntityNotFoundException.class, () -> { commentConsumerFeing.delete("TesteId01");});
     }
 }
 
