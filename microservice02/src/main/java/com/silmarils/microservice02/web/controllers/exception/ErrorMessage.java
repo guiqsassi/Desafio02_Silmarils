@@ -1,5 +1,4 @@
 package com.silmarils.microservice02.web.controllers.exception;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;

@@ -42,7 +42,7 @@ public class CommentUnitTest {
 
     @Test
     public void testCreatComment_WithValidData() {
-        Post post = new Post("1", 2, "testePost", "O corpo do post");
+        Post post = new Post("1", 2, "CommentUnitTesttestePost", "O corpo do post");
         Comment comment1 = new Comment("1", "mary@gmail.com", "nome1", "corpo do comentario", post);
 
         when(postRepository.findById(post.getId())).thenReturn(Optional.of(post));
@@ -118,6 +118,33 @@ public class CommentUnitTest {
     }
 
     @Test
+    public void testGetAllComments_WithValidPostId(){
+        Post post = new Post();
+        post.setId("1");
+        Comment comment1 = new Comment("1", "mary@gmail.com", "nome1", "corpo do comentario", post);
+        Comment comment2 = new Comment("2", "mary@gmail.com", "nome2", "corpo do comentario2", post);
+        Comment comment3 = new Comment("3", "claudio@gmail.com", "nome3", "corpo do comentario3", post);
+        when(commentRepository.findByPostId(any())).thenReturn(List.of(comment3, comment2, comment1));
+
+        List<Comment> commentList = commentService.findByPost(post.getId());
+
+        Assertions.assertNotNull(commentList);
+        Assertions.assertEquals(3, commentList.size());
+
+    }
+
+    @Test
+    public void testGetAllComments_WithInvalidPostId(){
+
+        when(postRepository.existsById(any())).thenReturn(false);
+
+        Assertions.assertThrows(EntityNotFoundException.class, ()->{
+            commentService.findByPost("1");
+        });
+
+    }
+
+    @Test
     public void testGetAllComments(){
 
         Comment comment1 = new Comment("1", "mary@gmail.com", "nome1", "corpo do comentario", null);
@@ -159,6 +186,33 @@ public class CommentUnitTest {
 
         Assertions.assertThrows(EntityNotFoundException.class, ()->{
             commentService.update("1", null);
+        });
+
+    }
+
+
+    @Test
+    public void testGetCommentByEmail(){
+
+        Comment comment1 = new Comment("1", "mary@gmail.com", "nome1", "corpo do comentario", null);
+        Comment comment2 = new Comment("1", "mary@gmail.com", "nome1", "corpo do comentario", null);
+        when(commentRepository.findAllByEmail("mary@gmail.com")).thenReturn(List.of(comment1, comment2));
+
+        List<Comment> commentList = commentService.findByEmail("mary@gmail.com");
+
+        Assertions.assertNotNull(commentList);
+        Assertions.assertEquals(2, commentList.size());
+
+    }
+
+
+
+    @Test
+    public void testGetCommentByIncorrectEmail(){
+
+        Comment comment1 = new Comment("1", "mary@gmail.com", "nome1", "corpo do comentario", null);
+        Assertions.assertThrows(EntityNotFoundException.class, ()->{
+            commentService.findByEmail("mary@gmail.com");
         });
 
     }

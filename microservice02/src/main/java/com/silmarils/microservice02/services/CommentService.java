@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import com.sun.jna.platform.win32.COM.util.ComEventCallbackCookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -112,6 +113,23 @@ public class CommentService {
         post.getComments().remove(commentToDelete);
         postRepository.save(post);
         commentRepository.deleteById(id);
+    }
+
+
+    public List<Comment> findByEmail(String email) {
+
+        List<Comment> comment = commentRepository.findAllByEmail(email);
+        if (comment.isEmpty()) {
+            throw new EntityNotFoundException("comments with email: " + email + " not found");
+        }
+
+        return comment;
+
+    public List<Comment> findByPost(String postId){
+        if(!postRepository.existsById(postId)){
+            throw new EntityNotFoundException("post with id: " + postId + " not found");
+        }
+        return commentRepository.findByPostId(postId);
     }
 
 
