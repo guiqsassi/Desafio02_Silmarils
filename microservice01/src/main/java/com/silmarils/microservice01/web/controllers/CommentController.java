@@ -39,5 +39,8 @@ public class CommentController {
     @DeleteMapping("{id}")
     public ResponseEntity<?> delete(@PathVariable String id) { return commentConsumerFeing.delete(id);}
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity<List<CommentResponseDto>> getByEmail(@PathVariable String email) { return commentConsumerFeing.getByEmail(email);}
+
 
 }
