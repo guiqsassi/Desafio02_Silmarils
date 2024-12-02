@@ -5,6 +5,7 @@ import com.silmarils.microservice02.entities.Post;
 import com.silmarils.microservice02.exceptions.EntityNotFoundException;
 import com.silmarils.microservice02.repository.CommentRepository;
 import com.silmarils.microservice02.repository.PostRepository;
+
 import com.silmarils.microservice02.web.controllers.exception.ErrorMessage;
 import com.silmarils.microservice02.web.dto.CommentUpdateDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -103,9 +104,13 @@ public class CommentService {
     )
 
     public void delete(String id) {
-        if(!commentRepository.existsById(id)){
-            throw new EntityNotFoundException("comment with id: " + id + " not found");
-        }
+        Comment commentToDelete = findById(id);
+
+        Post post = postRepository.findById(commentToDelete.getPostId().getId()).orElseThrow(() ->
+                new EntityNotFoundException("Post with id: " + id + " not found"));
+
+        post.getComments().remove(commentToDelete);
+        postRepository.save(post);
         commentRepository.deleteById(id);
     }
 
