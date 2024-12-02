@@ -113,7 +113,7 @@ public class PostIt {
         PostResponseDto dto =res.getBody();
 
         PostUpdateDto postUpdate = new PostUpdateDto("Titulo Atualizado", "Bom tarde pessoal");
-        ResponseEntity<String> response = postConsumerFeign.update(dto.getId() ,postUpdate);
+        ResponseEntity<PostResponseDto> response = postConsumerFeign.update(dto.getId() ,postUpdate);
 
         Assertions.assertEquals(response.getStatusCode(), HttpStatusCode.valueOf(200));
 
