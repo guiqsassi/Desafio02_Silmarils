@@ -47,6 +47,11 @@ public class CommentController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/post/{postId}")
+    public ResponseEntity<List<CommentResponseDto>> getAll(@PathVariable String postId) {
+        return ResponseEntity.ok(CommentMapper.toListDto(commentService.findByPost(postId)));
+    }
+
 
 
 }

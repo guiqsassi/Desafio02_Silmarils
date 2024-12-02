@@ -16,8 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import java.util.List;
@@ -155,7 +153,7 @@ public class CommentIT {
     }
 
     @Test
-    public void getAll_ShouldReturnListOfCommentsWithStatus404(){
+    public void getAll_ShouldReturnListOfCommentsWithStatus200(){
 
         List<CommentResponseDto> res = webClient
                 .get()
@@ -167,6 +165,38 @@ public class CommentIT {
 
         Assertions.assertThat(res).isNotNull();
     }
+
+    @Test
+    public void getAllByPostId_WithExistentPostId_ShouldReturnListOfCommentsWithStatus200(){
+
+        List<CommentResponseDto> res = webClient
+                .get()
+                .uri("/api/comments/post/1")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(CommentResponseDto.class)
+                .returnResult().getResponseBody();
+
+        Assertions.assertThat(res).isNotNull();
+        Assertions.assertThat(res).isNotEmpty();
+        Assertions.assertThat(res).hasSize(2);
+    }
+
+    @Test
+    public void getAllByPostId_WithNonExistentPostId_ShouldReturnListOfCommentsWithStatus200(){
+
+        ErrorMessage res = webClient
+                .get()
+                .uri("/api/comments/post/1000")
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        Assertions.assertThat(res).isNotNull();
+        Assertions.assertThat(res.getStatus()).isEqualTo(404);
+    }
+
 
 
 
