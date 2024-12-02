@@ -55,5 +55,9 @@ public class CommentService {
         commentRepository.deleteById(id);
     }
 
+    public List<Comment> findByPost(String postId){
+        return commentRepository.findByPostId(postId);
+    }
+
 
 }
