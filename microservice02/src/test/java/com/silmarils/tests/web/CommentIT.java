@@ -279,6 +279,35 @@ public class CommentIT {
     }
 
 
+    @Test
+    public void FindComment_WithExistentEmail_ShouldReturnCommentStatus200(){
+
+        List<CommentResponseDto> res = webClient
+                .put()
+                .uri("/api/comments/email/Brennon@carmela.tv")
+                .exchange()
+                .expectBodyList(CommentResponseDto.class)
+                .returnResult().getResponseBody();
+
+        Assertions.assertThat(res).isNotNull();
+
+    }
+
+    @Test
+    public void FindComment_WithNonExistentEmail_ShouldReturnCommentStatus404(){
+        ErrorMessage res = webClient
+                .put()
+                .uri("/api/comments/email/marc@gmail.")
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBody(ErrorMessage.class).returnResult().getResponseBody();
+
+        Assertions.assertThat(res.getStatus()).isEqualTo(400);
+
+
+    }
+
+
 
 }
 
